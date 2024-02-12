@@ -1,0 +1,3 @@
+[console_scripts]
+se2128 = se2128.__main__:main
+

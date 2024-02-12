@@ -1,0 +1,22 @@
+.Auth {
+  margin: 150px auto;
+  /* margin-top: 160px; */
+  width: 80%;
+  text-align: center;
+  box-shadow: 0 20px 30px #ccc;
+  border: 1px solid #eee;
+  padding: 10px;
+  height: 100px;
+  box-sizing: border-box;
+}
+.ErrorStyle {
+  color: red;
+  background-color: rgb(209, 207, 207);
+  font: bold;
+}
+
+@media (min-width: 600px) {
+  .Auth {
+    width: 1000px;
+  }
+}

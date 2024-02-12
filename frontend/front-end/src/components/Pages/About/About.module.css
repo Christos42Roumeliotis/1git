@@ -1,0 +1,17 @@
+.mainbody {
+  position:fixed;
+  top: 100px; /* Header Height */
+  width: 100%;
+  background-color: rgb(209, 207, 207);
+}
+
+.mainbody h2 {
+
+  padding: 70px;
+  text-align: center;
+}
+
+.mainbody p {
+  padding: 20px;
+  text-align: center;
+}

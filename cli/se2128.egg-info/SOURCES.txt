@@ -1,0 +1,10 @@
+README.md
+setup.py
+se2128/__init__.py
+se2128/__main__.py
+se2128/functionscli.py
+se2128.egg-info/PKG-INFO
+se2128.egg-info/SOURCES.txt
+se2128.egg-info/dependency_links.txt
+se2128.egg-info/entry_points.txt
+se2128.egg-info/top_level.txt

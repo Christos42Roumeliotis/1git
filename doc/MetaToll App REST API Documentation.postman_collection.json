@@ -1,0 +1,892 @@
+{
+	"info": {
+		"_postman_id": "6e0894b2-5b1b-4c3b-b887-4a52f0298abb",
+		"name": "MetaToll App REST API Documentation",
+		"description": "## Introduction\n\nFor the semester project of the \"Software Engineering\" of NTUA ECE School (Course is currently in the 7th semester) , we created this REST API to manage to communicate with our database and fetch the data that we need to desplay on our frontend and to to check the proper functioning of our database . Our REST API\n\nThe REST API will be available at the following base URL for all tasks: [http://127.0.0.1:9103/](http://127.0.0.1:9103/)\n\nThe individual Resources (REST endpoints) that will be available through the API will be accessible via the above base URL, as follows: *{baseURL} / {service} / {path-to-resource} ,* where {service} one of the services will be available, as listed below. For example, the endpoint to retrieve the number of crossings of the vehicle with ID \"RV87TIY76692\" for the month of November 2021 is the :  \n*https: // localhost: 9103 / interoperability / api / events / RV87TIY76692 / 20211101/20211130*  \nAll results returned by the API will be sorted by time field contain in ascending order.\n\n## Data formats\n\nOur REST API supports JSON (content-type: application / json) format and CSV (content-type: text / csv). The choice of format will be specified in the application as follows (query parameter): *{baseURL} / {service} / {path-to-resource}? format = {json | csv}* . If the format parameter is not provided in a request, consider json to be the default price. Character encoding must be UTF8. For example, the previous call with \"json\" data format request is as follows:  \n*https: // localhost: 9103 / interoperability / api / events / RV87TIY76692 / 20211101/20211130 & format = json*\n\n## Overview\n\nOur REST API has been developed using ***Django REST FRAMEWORK*** . We used several serializers to manage to extract and to fetch the data we need in the format that we need , in such a way that we can use and display them in the frontend . Our server runs in a virtual environment called ***metanev*** , which is inside the backend file. The endpoints we had to create are shown below(every request is an endpoint) , each one with it's own URL . Every URL has it's own parameters to the path . For every path variable there is an explanation in the description of every request . In addition to that we added examples below every request so everyone can check if the requests are working properly .\n\n## Error Codes\n\nEach call to the API should return the appropriate HTTP status codes in case of an error. In particular, the following codes will be returned:\n\n| **Type of error** | **Meaning** | **Description** |\n| --- | --- | --- |\n| 200 | Sucess | In case of a successful call |\n| 400 | Bad request | In case the parameters given in a call are not  <br>valid (eg blank required field) |\n| 401 | Not authorized | In case the request is made by an unauthorized user |\n| 402 | No data | In case the answer to the call is empty |\n| 500 | Internal server error | In case of any other error |\n\nThe errors are shown in the command line we choose to run our server .\n\n## Rate limit\n\nThere is no limit to the number of requests a user can sent .",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/admin/healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/admin/healthcheck",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"healthcheck"
+					]
+				},
+				"description": "This endpoint supports the GET method and confirms the end-to-end connectivity between the user and the database. The back-end, that is, it must check the connectivity to the DB to respond to the request. In case of successful connection the json object is returned: ***{\"status\": \"OK\", \"dbconnection\": \\[connection string\\]}***, otherwise it is returned ***{\"status\": \"failed\", \"dbconnection\": \\[connection string\\]}***. The connection string contains everything required for DB of your choice."
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/admin/healthcheck",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/admin/healthcheck",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"healthcheck"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 18:48:17 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\",\n    \"dbconnection\": \"postgresql://postgres:454568AS@localhost:5432/metadb\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/admin/resetpasses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetpasses",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetpasses"
+					]
+				},
+				"description": "Supports the POST method and initializes the transit event table (delete all events). Also initialization of the default admin account (username: admin, password: freepasses4all), if you managed to implement user accounts. If successful, a json object is returned : ***{\"status\": \"OK\"}***, otherwise it returns ***{\"status\": \"failed\"}*** with (optional) failure information."
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/admin/healthcheck",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetpasses",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetpasses"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 18:49:58 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/admin/resetstations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetstations",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetstations"
+					]
+				},
+				"description": "Supports the POST method and proceeds to initialize the toll station table with the values ​​given to you as an indication data. Optionally, with your own values ​​containing the names of the stations and the other data that you will choose to include in the DB, such as the location, etc. In case of success, the json object is returned: ***{\"status\": \"OK\"}***, otherwise returns ***{\"status\": \"failed\"}*** with (optional) failure information."
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/admin/resetstations",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetstations",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetstations"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 18:52:33 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/admin/resetvehicles",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetvehicles",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetvehicles"
+					]
+				},
+				"description": "Supports the POST method and proceeds to initialize the vehicle list with the values ​​given to you as indicative data. If successful, the json object: ***{\"status\": \"OK\"}*** is returned, otherwise returns ***{\"status\": \"failed\"}*** with (optional) failure information ."
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/admin/resetvehicles",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/admin/resetvehicles",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetvehicles"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 18:53:29 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesPerStation",
+						":stationID",
+						":date_from",
+						":date_to"
+					],
+					"variable": [
+						{
+							"key": "stationID",
+							"value": null,
+							"description": "The station's ID (Required)"
+						},
+						{
+							"key": "date_from",
+							"value": null,
+							"description": "The start date of the search (Required)"
+						},
+						{
+							"key": "date_to",
+							"value": "",
+							"description": "The ending date of the search (Required)"
+						}
+					]
+				},
+				"description": "This endpoint returns a list with the analysis of the passes for the toll station for the period given in the URL. The representation of returned dates must have this format \"YYYY-MM-DD HH: MM: SS\" .\n\n| **Field** | **Data type** | **Description** |\n| --- | --- | --- |\n| Station | String | The unique ID of the passing point |\n| StationOperator | String | The operator of the toll station of the passing point |\n| RequestTimestamp | String | The data/time of the request |\n| PeriodFrom | String | The requested period(from) |\n| PeriodTo | String | The requested period(to) |\n| NumberofPasses | Integer | The number of transit events the period given |\n| PassesList : | List | (Includes \\[NumberOfPasses\\] elements ) |\n| PassIndex | Integer | Index at the period(1,2,3,...) |\n| PassID | String | The ID of the passing event |\n| PassTimeStamp | String | The time of transit |\n| VehicleID | String | The ID of the vehicle |\n| TagProvider | String | The transit tag provider for the vehicle |\n| PassType | String | \"home\" or \"visitor\" |\n| PassCharge | Float | The cost of passing |"
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/PassesPerStation/KO01/20190101/20190105",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesPerStation",
+								"KO01",
+								"20190101",
+								"20190105"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 18:58:07 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "516"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Station\": \"KO01\",\n    \"StationOperator\": \"kentriki_odos\",\n    \"RequestTimestamp\": \"15/02/2022, 20:58:07\",\n    \"PeriodFrom\": \"01/01/2019\",\n    \"PeriodTo\": \"05/01/2019\",\n    \"NumberOfPasses\": 2,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassId\": \"WNH6218760\",\n            \"PassTimeStamp\": \"2019-01-03T01:04:00Z\",\n            \"VehicleID\": \"QW79CHL42244\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassId\": \"KPT1084302\",\n            \"PassTimeStamp\": \"2019-01-03T04:06:00Z\",\n            \"VehicleID\": \"IX01MVL33676\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.5\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesAnalysis",
+						":op1_ID",
+						":op2_ID",
+						":date_from",
+						":date_to"
+					],
+					"variable": [
+						{
+							"key": "op1_ID",
+							"value": null,
+							"description": "The ID of the 1st operator . This operator has the stations at which the transit events took place . (Required)"
+						},
+						{
+							"key": "op2_ID",
+							"value": null,
+							"description": "The ID of the 2nd operator. Τhe vehicles that passed through the first operator's stations had the second operator's tags . (Required)"
+						},
+						{
+							"key": "date_from",
+							"value": null,
+							"description": "The start date of the search . (Required)"
+						},
+						{
+							"key": "date_to",
+							"value": null,
+							"description": "The ending date of the search . (Required)"
+						}
+					]
+				},
+				"description": "A list is returned with the breakdown by point of the transit events that took place with **op2_ID** tag on **op1_ID** stations. All events returned are of the \"visitor\" type in the PassesPerStation call. The representation of returned dates must be hers in the form \"YYYY-MM-DD HH: MM: DD\" .\n\n| **Field** | **Data type** | **Description** |\n| --- | --- | --- |\n| op1_ID | String | Operator1's ID |\n| op2_ID | String | Operator2's ID |\n| RequestTimestamp | String | The date/time of the request |\n| PeriodFrom | String | The requested period(from) |\n| PeriodTo | String | The requested period(to) |\n| NumberOfPasses | Integer | The number of trasnit events the period given |\n| Passes List : | List | (Includes \\[NumberOfPasses\\] elements) |\n| PassIndex | Integer | Index of the pass event |\n| PassID | String | The ID of the passing event |\n| StationID | String | The ID of the pass station |\n| TimeStamp | String | The time of transit |\n| VehicleID | String | The ID of the vehicle |\n| Charge | Float | The cost of the pass |"
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/PassesAnalysis/aodos/egnatia/20190101/20190107",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/PassesAnalysis/aodos/egnatia/20190101/20190107",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAnalysis",
+								"aodos",
+								"egnatia",
+								"20190101",
+								"20190107"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 19:05:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "559"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op1_ID\": \"aodos\",\n    \"op2_ID\": \"egnatia\",\n    \"RequestTimestamp\": \"15/02/2022, 21:05:53\",\n    \"PeriodFrom\": \"01/01/2019\",\n    \"PeriodTo\": \"07/01/2019\",\n    \"NumberOfPasses\": 3,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassId\": \"RDV6518451\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2019-01-03T00:39:00Z\",\n            \"VehicleID\": \"XE59BZM26378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassId\": \"TYT3955033\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2019-01-05T01:58:00Z\",\n            \"VehicleID\": \"VL67TFO75321\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 3,\n            \"PassId\": \"PVJ3943516\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2019-01-06T10:54:00Z\",\n            \"VehicleID\": \"XE59BZM26378\",\n            \"Charge\": 2.8\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						":op1_ID",
+						":op2_ID",
+						":date_from",
+						":date_to"
+					],
+					"variable": [
+						{
+							"key": "op1_ID",
+							"value": null,
+							"description": "The ID of the 1st operator . This operator has the stations at which the transit events took place . (Required)"
+						},
+						{
+							"key": "op2_ID",
+							"value": null,
+							"description": "The ID of the 2nd operator. Τhe vehicles that passed through the first operator's stations had the second operator's tags . (Required)"
+						},
+						{
+							"key": "date_from",
+							"value": null,
+							"description": "The start date of the search . (Required)"
+						},
+						{
+							"key": "date_to",
+							"value": null,
+							"description": "The ending date of the search . (Required)"
+						}
+					]
+				},
+				"description": "This endpoint returns the number of transit **events tagged by op2_ID** in **op1_ID stations**, as well as their cost, ie the amount **that op2_ID owes to op1_ID**, for the given period .\n\n| **Field** | **Data type** | **Decription** |\n| --- | --- | --- |\n| op1_ID | String | Operator1's ID |\n| op2_ID | String | Operator2's ID |\n| RequestTimestamp | String | The date/time of the request |\n| PeriodFrom | String | The requested period(from) |\n| PeriodTo | String | The requested period(to) |\n| NumberOfPasses | Integer | The number of the transit events |\n| PassesCost | Float | The total cost of the passes |"
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/PassesCost/egnatia/gefyra/20190101/20200101",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/PassesCost/egnatia/gefyra/20190101/20200101",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesCost",
+								"egnatia",
+								"gefyra",
+								"20190101",
+								"20200101"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 19:10:10 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "169"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op1_ID\": \"egnatia\",\n    \"op2_ID\": \"gefyra\",\n    \"RequestTimestamp\": \"15/02/2022, 21:10:10\",\n    \"PeriodFrom\": \"01/01/2019\",\n    \"PeriodTo\": \"01/01/2020\",\n    \"NumberOfPasses\": 71,\n    \"PassesCost\": 166.1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"ChargesBy",
+						":op_ID",
+						":date_from",
+						":date_to"
+					],
+					"variable": [
+						{
+							"key": "op_ID",
+							"value": null,
+							"description": "The ID of the operator that wants to know the amount of money that he owes to the other operators or the other operators owe to him . (Required)"
+						},
+						{
+							"key": "date_from",
+							"value": null,
+							"description": "The start date of the search . (Required)"
+						},
+						{
+							"key": "date_to",
+							"value": null,
+							"description": "The ending date of the search . (Required)"
+						}
+					]
+				},
+				"description": "This endpoint returns **the number of transit events that occurred at op_ID stations**, from vehicles of all other operators, as well as their cost, that is the amount that each from the other operators owes to Operator op_ID, for the given period.\n\n| **Field** | **Data type** | **Description** |\n| --- | --- | --- |\n| op_ID | String | Operator's ID |\n| RequestTimestamp | String | The date/time of the request |\n| PeriodFrom | String | The requested period(from) |\n| PeriodTo | String | The requested period(to) |\n| PPOList : | List | It contains as many elements as the (distict) operators, whose vehicles passed through the op_ID tolls for the given  <br>period . |\n| VisitingOperator | String | Visiting operator's ID |\n| NumberOfPasses | Integer | The number of passes for the given period |\n| PassesCost | Float | The total cost of the passes which the VisitingOperator owes at op_ID . |"
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9103/interoperability/api/ChargesBy/aodos/20190101/20200101",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9103/interoperability/api/ChargesBy/aodos/20190101/20200101",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"ChargesBy",
+								"aodos",
+								"20190101",
+								"20200101"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 15 Feb 2022 19:19:54 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Origin"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "551"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op_ID\": \"aodos\",\n    \"RequestTimestamp\": \"15/02/2022, 21:19:54\",\n    \"PeriodFrom\": \"01/01/2019\",\n    \"PeriodTo\": \"01/01/2020\",\n    \"PPOList\": [\n        {\n            \"VisitingOperator\": \"egnatia\",\n            \"NumberOfPasses\": 123,\n            \"PassesCost\": 260.55\n        },\n        {\n            \"VisitingOperator\": \"gefyra\",\n            \"NumberOfPasses\": 99,\n            \"PassesCost\": 199.2\n        },\n        {\n            \"VisitingOperator\": \"kentriki_odos\",\n            \"NumberOfPasses\": 95,\n            \"PassesCost\": 157\n        },\n        {\n            \"VisitingOperator\": \"moreas\",\n            \"NumberOfPasses\": 69,\n            \"PassesCost\": 92\n        },\n        {\n            \"VisitingOperator\": \"nea_odos\",\n            \"NumberOfPasses\": 86,\n            \"PassesCost\": 91.3\n        },\n        {\n            \"VisitingOperator\": \"olympia_odos\",\n            \"NumberOfPasses\": 82,\n            \"PassesCost\": 130.7\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}

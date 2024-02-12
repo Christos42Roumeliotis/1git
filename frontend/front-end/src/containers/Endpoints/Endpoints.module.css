@@ -1,0 +1,24 @@
+.mainbody {
+    position:flex;
+    top: 100px; /* Header Height */
+    width: 100%;
+    background-color: rgb(209, 207, 207);
+    align-items: center ;
+  }
+  
+  .mainbody h2 {
+  
+    padding: 70px;
+    text-align: center;
+  }
+  
+  .mainbody p {
+    padding: 10px;
+    text-align: left;
+
+  }
+  .mainbody a {
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+  }

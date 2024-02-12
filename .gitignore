@@ -1,0 +1,26 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history
+
+metaenv
+database/database.ini
+database/metadb.ini
+<<<<<<< HEAD
+MetaTollApp/metaadb.ini
+MetaTollApp/secreatkey.ini
+=======
+backend/MetaTollApp/metadb.ini
+backend/MetaTollApp/secretkey.ini
+frontend/front-end/node_modules
+# backend/accounts
+>>>>>>> 4396d6df5e35bbc4e6d692cb66c7f3c0302d8998
